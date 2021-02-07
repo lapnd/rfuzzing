@@ -58,6 +58,10 @@ class Fuzzer:
             # Starts by initializing a registers: x0 to x31
             for i in range(32):
                 self.writer.line(f'li {convention.registers[i]}, {hex(self.rand_u256())}')
+            # Randomly add a nop to change the index of the instruction
+            for _ in range(random.randint(0, 1)):
+                self.writer.line('nop')
+            # Da da da!
             for _ in range(1024):
                 self.rand_instruction()
 
@@ -84,6 +88,7 @@ class Fuzzer:
 
 
 done = 0
+
 
 def main():
     for i in range(1 << 32):

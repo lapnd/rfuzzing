@@ -180,4 +180,12 @@ instruction_rule = [
     ['sbsetiw', ['r', 'r', 'u5']],
     ['sbclriw', ['r', 'r', 'u5']],
     ['sbinviw', ['r', 'r', 'u5']],
+    ['slo', ['r', 'r', 'r']],
+    ['sro', ['r', 'r', 'r']],
+    ['sloi', ['r', 'r', 'u6']],
+    ['sroi', ['r', 'r', 'u6']],
+    ['slow', ['r', 'r', 'r']],
+    ['srow', ['r', 'r', 'r']],
+    ['sloiw', ['r', 'r', 'u5']],
+    ['sroiw', ['r', 'r', 'u5']],
 ]
