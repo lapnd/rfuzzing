@@ -45,6 +45,9 @@ class Fuzzer:
             if i == 'u6':
                 args.append(hex(self.rand_u256() % 64))
                 continue
+            if i == 'u7':
+                args.append(hex(self.rand_u256() % 128))
+                continue
             assert 0
         self.writer.line(f'{opcode} {", ".join(args)}')
         self.writer.line(f'add t6, t6, {args[0]}')
@@ -54,8 +57,8 @@ class Fuzzer:
         self.writer.line('_start:')
 
         # Fuzzer loop
-        for _ in range(128):
-            # Starts by initializing a registers: x0 to x31
+        for _ in range(32):
+            # Starts by initializing registers: x0 to x31
             for i in range(32):
                 self.writer.line(f'li {convention.registers[i]}, {hex(self.rand_u256())}')
             # Randomly add a nop to change the index of the instruction
@@ -87,13 +90,8 @@ class Fuzzer:
         self.writer.f.close()
 
 
-done = 0
-
-
 def main():
     for i in range(1 << 32):
-        if done:
-            break
         print('generation', i)
         f = Fuzzer()
         f.loop()
@@ -123,7 +121,4 @@ def main():
 
 
 if __name__ == '__main__':
-    try:
-        main()
-    except KeyboardInterrupt:
-        done = 1
+    main()
