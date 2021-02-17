@@ -236,4 +236,12 @@ instruction_rule = [
     ['fslw', ['r', 'r', 'r', 'r']],
     ['fsrw', ['r', 'r', 'r', 'r']],
     ['fsriw', ['r', 'r', 'r', 'u5']],
+    ['sh1add', ['r', 'r', 'r']],
+    ['sh2add', ['r', 'r', 'r']],
+    ['sh3add', ['r', 'r', 'r']],
+    ['sh1addu.w', ['r', 'r', 'r']],
+    ['sh2addu.w', ['r', 'r', 'r']],
+    ['sh3addu.w', ['r', 'r', 'r']],
+    ['addu.w', ['r', 'r', 'r']],
+    ['slliu.w', ['r', 'r', 'u6']],
 ]

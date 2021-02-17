@@ -4,6 +4,12 @@ import subprocess
 
 import convention
 
+c_binary_as = '/root/app/riscv64b/bin/riscv64-unknown-elf-as'
+c_binary_ld = '/root/app/riscv64b/bin/riscv64-unknown-elf-ld'
+c_binary_riscv_int = '/src/ckb-vm-run/target/release/int'
+c_binary_riscv_asm = '/src/ckb-vm-run/target/release/asm'
+c_binary_riscv_aot = '/src/ckb-vm-run/target/release/aot'
+c_binary_riscv_spike = '/root/app/riscv64b/bin/spike'
 
 class Writer:
 
@@ -96,22 +102,22 @@ def main():
         f = Fuzzer()
         f.loop()
 
-        subprocess.call('/root/app/riscv64b/bin/riscv64-unknown-elf-as -march=rv64gcb -o main.o main.S', shell=True)
-        subprocess.call('/root/app/riscv64b/bin/riscv64-unknown-elf-ld -o main main.o', shell=True)
+        subprocess.call(f'{c_binary_as} -march=rv64gcb -o main.o main.S', shell=True)
+        subprocess.call(f'{c_binary_ld} -o main main.o', shell=True)
 
-        int_output = subprocess.getoutput('/src/ckb-vm-run/target/release/int main')
+        int_output = subprocess.getoutput(f'{c_binary_riscv_int} main')
         int_match = re.match(r'int exit=Ok\((?P<code>-?\d+)\) cycles=\d+', int_output)
         int_exitcode = int(int_match.group('code'))
 
-        asm_output = subprocess.getoutput('/src/ckb-vm-run/target/release/asm main')
+        asm_output = subprocess.getoutput(f'{c_binary_riscv_asm} main')
         asm_match = re.match(r'asm exit=Ok\((?P<code>-?\d+)\) cycles=\d+', asm_output)
         asm_exitcode = int(asm_match.group('code'))
 
-        aot_output = subprocess.getoutput('/src/ckb-vm-run/target/release/aot main')
+        aot_output = subprocess.getoutput(f'{c_binary_riscv_aot} main')
         aot_match = re.match(r'aot exit=Ok\((?P<code>-?\d+)\) cycles=\d+', aot_output)
         aot_exitcode = int(aot_match.group('code'))
 
-        cmp_exitcode = subprocess.call('/root/app/riscv64b/bin/spike --isa RV64GCB pk /src/rfuzzing/main', shell=True)
+        cmp_exitcode = subprocess.call(f'{c_binary_riscv_spike} --isa RV64GCB pk main', shell=True)
         if cmp_exitcode >= 128:
             cmp_exitcode = cmp_exitcode - 256
 
