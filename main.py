@@ -35,7 +35,7 @@ class Fuzzer:
             return random.randint(0, (1 << 64) - 1)
 
     def rand_idle_register(self):
-        return convention.registers[random.randint(0, 30)]
+        return random.choice(convention.idle_registers)
 
     def rand_instruction(self):
         choose_rule = random.choice(convention.instruction_rule)
@@ -64,9 +64,9 @@ class Fuzzer:
 
         # Fuzzer loop
         for _ in range(32):
-            # Starts by initializing registers: x0 to x31
-            for i in range(32):
-                self.writer.line(f'li {convention.registers[i]}, {hex(self.rand_u256())}')
+            # Starts by initializing registers: x0 to x30
+            for i in convention.registers:
+                self.writer.line(f'li {i}, {hex(self.rand_u256())}')
             # Randomly add a nop to change the index of the instruction
             for _ in range(random.randint(0, 1)):
                 self.writer.line('nop')

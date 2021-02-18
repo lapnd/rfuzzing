@@ -5,7 +5,7 @@ Since there is no branch instruction in the B extension, this means that we don'
 ```text
 Fuzzer loop ←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←
     ↓                                             ↑
-Starts by initializing registers: x0 to x31       ↑
+Starts by initializing registers: x0 to x30       ↑
     ↓                                             ↑
 Write random instruction ←←←←←←←←←←←←←←←←←←←←↑    ↑
     ↓                                        ↑    ↑

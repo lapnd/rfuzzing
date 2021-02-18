@@ -9,6 +9,8 @@ registers = [
     't3', 't4', 't5', 't6',
 ]
 
+idle_registers = registers[:-1]
+
 # Some special numbers for boundary value testing.
 best_numbers = [
     0x0000000000000000,
