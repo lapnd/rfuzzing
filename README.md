@@ -2,20 +2,20 @@
 
 Since there is no branch instruction in the B extension, this means that we don't need to think about infinite loops, or wrong jump addresses. This makes my job a lot easier.
 
-```
-Fuzzer loop ←←←←←←←←←←←←←←←←←←←←
+```text
+Fuzzer loop ←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←
     ↓                                             ↑
-Starts by initializing registers: x0 to x31        ↑
+Starts by initializing registers: x0 to x31       ↑
     ↓                                             ↑
-Write random instruction ←←←←←←←←←←←    ↑
-    ↓                                        ↑   ↑
-Do checksum for RD: x31 = x31 + RD →→→→→→    ↑
+Write random instruction ←←←←←←←←←←←←←←←←←←←←↑    ↑
+    ↓                                        ↑    ↑
+Do checksum for RD: x31 = x31 + RD →→→→→←←←←→↑    ↑
     ↓                                             ↑
-Treat x31 as 8 byte and sum them                   ↑
+Treat x31 as 8 byte and sum them                  ↑
     ↓                                             ↑
-Returns the result as exit code                    ↑
+Returns the result as exit code                   ↑
     ↓                                             ↑
-Compile, and run it by ckb-vm and spike →→→→→→
+Compile, and run it by ckb-vm and spike →→→→→→→→→→↑
 ```
 
 # Special number
