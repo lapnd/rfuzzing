@@ -10,7 +10,7 @@ registers = [
 ]
 
 # Some special numbers for boundary value testing.
-shit_numbers = [
+best_numbers = [
     0x0000000000000000,
     0x0000000000000001,
     0xffffffffffffffff,
@@ -141,8 +141,8 @@ shit_numbers = [
     0x31523358d080e093,
 ]
 
-# Rate of generating shit numbers
-p_shit_numbers = 0.05
+# Rate of generating best numbers
+p_best_numbers = 0.05
 
 instruction_rule = [
     ['clz', ['r', 'r']],

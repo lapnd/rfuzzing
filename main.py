@@ -28,9 +28,9 @@ class Fuzzer:
         self.writer = Writer('main.S')
 
     def rand_u256(self):
-        # There is a higher chance of generating shit numbers
-        if random.random() < convention.p_shit_numbers:
-            return random.choice(convention.shit_numbers)
+        # There is a higher chance of generating best numbers
+        if random.random() < convention.p_best_numbers:
+            return random.choice(convention.best_numbers)
         else:
             return random.randint(0, (1 << 64) - 1)
 

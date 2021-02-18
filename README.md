@@ -24,7 +24,7 @@ Some special numbers, such as 0x800000000000, they are on the boundary, so it is
 
 # Speed
 
-Due to the maximum memory limit of ckb-vm, I cannot write too many instructions at once. Currently, 32768 random instructions can be tested every 2 seconds. They will be executed by 4 virtual machines:
+Due to the maximum memory limit of ckb-vm, I cannot write too many instructions at once. Currently, 32768 random instructions can be tested every 0.5 seconds. They will be executed by 4 virtual machines:
 
 - ckb-vm-interpreter
 - ckb-vm-asm
