@@ -12,6 +12,7 @@ if xlen == 32:
     c_binary_as = '/opt/riscv32b/bin/riscv32-unknown-elf-as'
     c_binary_as_args = '-march=rv32gcb'
     c_binary_ld = '/opt/riscv32b/bin/riscv32-unknown-elf-ld'
+    # https://github.com/mohanson/ckb-vm-run
     c_binary_riscv_int = '/src/ckb-vm-run/target/release/int32'
     c_binary_riscv_asm = ''
     c_binary_riscv_aot = ''
@@ -88,7 +89,7 @@ class Fuzzer:
         # Fuzzer loop
         for _ in range(32):
             # Starts by initializing registers: x0 to x30
-            for i in convention.registers:
+            for i in convention.idle_registers:
                 self.writer.line(f'li {i}, {hex(self.rand_u64())}')
             # Randomly add a nop to change the index of the instruction
             for _ in range(random.randint(0, 1)):
