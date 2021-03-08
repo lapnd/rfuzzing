@@ -4,7 +4,7 @@ import subprocess
 
 import convention
 
-xlen = 32
+xlen = 64
 
 assert xlen in [32, 64]
 
@@ -67,10 +67,15 @@ class Fuzzer:
                 args.append(self.rand_idle_register())
                 continue
             if i == 'half':
-                args.append(hex(self.rand_u64() % (xlen > 1)))
+                args.append(hex(self.rand_u64() % (xlen >> 1)))
                 continue
             if i == 'xlen':
                 args.append(hex(self.rand_u64() % xlen))
+                continue
+            if i == 'i12':
+                n = self.rand_u64() % (1 << 12)
+                n -= (1 << 11)
+                args.append(str(n))
                 continue
             assert 0
         self.writer.line(f'{opcode} {", ".join(args)}')
