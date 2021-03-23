@@ -2,6 +2,7 @@ import random
 import re
 import subprocess
 
+import common
 import convention
 
 xlen = 64
@@ -29,21 +30,10 @@ else:
     c_binary_riscv_spike_args = '--isa RV64GCB /opt/riscv64b/riscv64-unknown-elf/bin/pk'
 
 
-class Writer:
-
-    def __init__(self, name: str):
-        self.name = name
-        self.f = open(self.name, 'w')
-
-    def line(self, line: str):
-        self.f.write(line)
-        self.f.write('\n')
-
-
 class Fuzzer:
 
     def __init__(self):
-        self.writer = Writer('main.S')
+        self.writer = common.Writer('main.S')
 
     def rand_u64(self):
         # There is a higher chance of generating best numbers
@@ -100,21 +90,22 @@ class Fuzzer:
 
         # Returns checksum
         self.writer.line('')
-        self.writer.line('addi a0, t6, 0')
+        self.writer.line('srli t6, t6, 0')
+        self.writer.line('add a0, a0, t6')
         self.writer.line('srli t6, t6, 8')
         self.writer.line('add a0, a0, t6')
-        self.writer.line('srli t6, t6, 16')
+        self.writer.line('srli t6, t6, 8')
         self.writer.line('add a0, a0, t6')
-        self.writer.line('srli t6, t6, 24')
+        self.writer.line('srli t6, t6, 8')
         self.writer.line('add a0, a0, t6')
         if xlen == 64:
-            self.writer.line('srli t6, t6, 32')
+            self.writer.line('srli t6, t6, 8')
             self.writer.line('add a0, a0, t6')
-            self.writer.line('srli t6, t6, 40')
+            self.writer.line('srli t6, t6, 8')
             self.writer.line('add a0, a0, t6')
-            self.writer.line('srli t6, t6, 48')
+            self.writer.line('srli t6, t6, 8')
             self.writer.line('add a0, a0, t6')
-            self.writer.line('srli t6, t6, 56')
+            self.writer.line('srli t6, t6, 8')
             self.writer.line('add a0, a0, t6')
         self.writer.line('li a7, 93')
         self.writer.line('ecall')

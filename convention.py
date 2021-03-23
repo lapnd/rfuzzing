@@ -258,3 +258,10 @@ instruction_rule_64 = [
     ['sh2addu.w', ['r', 'r', 'r']],
     ['sh3addu.w', ['r', 'r', 'r']],
 ]
+
+instruction_rule_mop = [
+    [['mulh', ['r', 'r', 'r']], ['mul', ['r', 'r', 'r']]],
+    [['mulhu', ['r', 'r', 'r']], ['mul', ['r', 'r', 'r']]],
+    [['div', ['r', 'r', 'r']], ['rem', ['r', 'r', 'r']]],
+    [['divu', ['r', 'r', 'r']], ['remu', ['r', 'r', 'r']]],
+]
