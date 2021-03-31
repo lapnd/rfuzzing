@@ -262,6 +262,7 @@ instruction_rule_64 = [
 instruction_rule_mop = [
     [['mulh', ['r', 'r', 'r']], ['mul', ['r', 'r', 'r']]],
     [['mulhu', ['r', 'r', 'r']], ['mul', ['r', 'r', 'r']]],
+    [['mulhsu', ['r', 'r', 'r']], ['mul', ['r', 'r', 'r']]],
     [['div', ['r', 'r', 'r']], ['rem', ['r', 'r', 'r']]],
     [['divu', ['r', 'r', 'r']], ['remu', ['r', 'r', 'r']]],
 ]
