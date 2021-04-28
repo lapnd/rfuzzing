@@ -114,6 +114,8 @@ class Fuzzer:
 
 def main():
     for i in range(1 << 32):
+        if common.done:
+            break
         print('generation', i)
         f = Fuzzer()
         f.loop()

@@ -16,8 +16,9 @@ done = 0
 
 
 def sigint(*args, **kwargs):
-    globals()['done'] = 1
+    global done
+    done = 1
 
 
-signal.signal(signal.SIGINT, sigint)
-signal.signal(signal.SIGTERM, sigint)
+signal.signal(0x02, sigint)
+signal.signal(0x0f, sigint)
