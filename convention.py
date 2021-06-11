@@ -266,3 +266,7 @@ instruction_rule_mop = [
     [['div', ['r', 'r', 'r']], ['rem', ['r', 'r', 'r']]],
     [['divu', ['r', 'r', 'r']], ['remu', ['r', 'r', 'r']]],
 ]
+
+instruction_rule_mop_cpx = {
+    'adc': ['add a0, a0, a1', 'sltu a1, a0, a1', 'add a0, a0, a2', 'sltu a2, a0, a2', 'or a1, a1, a2'],
+}
