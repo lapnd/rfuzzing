@@ -145,6 +145,8 @@ best_numbers = [
 
 # Rate of generating best numbers
 p_best_numbers = 0.05
+# Rate of generating mop instructions
+p_mop = 0.2
 
 instruction_rule_32 = [
     ['clz', ['r', 'r']],
@@ -269,4 +271,5 @@ instruction_rule_mop = [
 
 instruction_rule_mop_cpx = {
     'adc': ['add a0, a0, a1', 'sltu a1, a0, a1', 'add a0, a0, a2', 'sltu a2, a0, a2', 'or a1, a1, a2'],
+    'sbb': ['sub a1, a0, a1', 'sltu a3, a0, a1', 'sub a0, a1, a2', 'sltu a2, a1, a0', 'or a1, a2, a3'],
 }
