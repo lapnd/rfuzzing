@@ -1,3 +1,8 @@
+# Rate of generating best numbers
+p_best_numbers = 0.05
+# Rate of generating mop instructions
+p_mop = 0.1
+
 registers = [
     'zero', 'ra', 'sp', 'gp',
     'tp', 't0', 't1', 't2',
@@ -143,11 +148,6 @@ best_numbers = [
     0x31523358d080e093,
 ]
 
-# Rate of generating best numbers
-p_best_numbers = 0.05
-# Rate of generating mop instructions
-p_mop = 0.2
-
 instruction_rule_32 = [
     ['clz', ['r', 'r']],
     ['ctz', ['r', 'r']],
@@ -261,15 +261,12 @@ instruction_rule_64 = [
     ['sh3addu.w', ['r', 'r', 'r']],
 ]
 
-instruction_rule_mop = [
-    [['mulh', ['r', 'r', 'r']], ['mul', ['r', 'r', 'r']]],
-    [['mulhu', ['r', 'r', 'r']], ['mul', ['r', 'r', 'r']]],
-    [['mulhsu', ['r', 'r', 'r']], ['mul', ['r', 'r', 'r']]],
-    [['div', ['r', 'r', 'r']], ['rem', ['r', 'r', 'r']]],
-    [['divu', ['r', 'r', 'r']], ['remu', ['r', 'r', 'r']]],
-]
-
 instruction_rule_mop_cpx = {
+    'wide_mul': ['mulh a2, a0, a1', 'mul a3, a0, a1'],
+    'wide_mulu': ['mulhu a2, a0, a1', 'mul a3, a0, a1'],
+    'wide_mulsu': ['mulhsu a2, a0, a1', 'mul a3, a0, a1'],
+    'wide_div': ['div a2, a0, a1', 'rem a3, a0, a1'],
+    'wide_divu': ['divu a2, a0, a1', 'remu a3, a0, a1'],
     'adc': ['add a0, a0, a1', 'sltu a1, a0, a1', 'add a0, a0, a2', 'sltu a2, a0, a2', 'or a1, a1, a2'],
     'sbb': ['sub a1, a0, a1', 'sltu a3, a0, a1', 'sub a0, a1, a2', 'sltu a2, a1, a0', 'or a1, a2, a3'],
 }
