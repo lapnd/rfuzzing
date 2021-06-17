@@ -14,7 +14,7 @@ registers = [
     't3', 't4', 't5', 't6',
 ]
 
-idle_registers = registers[:-1]
+idle_registers = registers[0:1] + registers[3:-1]
 
 # Some special numbers for boundary value testing.
 best_numbers = [
@@ -269,4 +269,10 @@ instruction_rule_mop_cpx = {
     'wide_divu': ['divu a2, a0, a1', 'remu a3, a0, a1'],
     'adc': ['add a0, a0, a1', 'sltu a1, a0, a1', 'add a0, a0, a2', 'sltu a2, a0, a2', 'or a1, a1, a2'],
     'sbb': ['sub a1, a0, a1', 'sltu a3, a0, a1', 'sub a0, a1, a2', 'sltu a2, a1, a0', 'or a1, a2, a3'],
+    'twins_ld_0': ['li sp, 0x3ff000', 'ld a0, 0(sp)', 'ld a1, 8(sp)'],
+    'twins_ld_1': ['li sp, 0x3ff000', 'ld a1, 8(sp)', 'ld a0, 0(sp)'],
+    'twins_ld_2': ['li sp, 0x3ff008', 'ld a1, -8(sp)', 'ld a0, 0(sp)'],
+    'twins_sd_0': ['li sp, 0x3ff000', 'sd a0, 0(sp)', 'sd a1, 8(sp)'],
+    'twins_sd_1': ['li sp, 0x3ff000', 'sd a1, 8(sp)', 'sd a0, 0(sp)'],
+    'twins_sd_2': ['li sp, 0x3ff008', 'sd a1, -8(sp)', 'sd a0, 0(sp)'],
 }

@@ -131,6 +131,12 @@ class Fuzzer:
             self.writer.line('add a0, a0, t6')
         self.writer.line('li a7, 93')
         self.writer.line('ecall')
+        self.writer.line('.section .data')
+        self.writer.line('number:')
+        self.writer.line('.quad 4')
+        self.writer.line('.quad 2')
+        self.writer.line('.quad 1')
+        self.writer.line('.quad 0')
         self.writer.f.close()
 
 
@@ -147,7 +153,7 @@ def main():
         f.loop()
 
         call(f'{c_binary_as} {c_binary_as_args} -o main.o main.S')
-        call(f'{c_binary_ld} -o main main.o')
+        call(f'{c_binary_ld} -o main -T main.lds main.o')
 
         int_output = call(f'{c_binary_riscv_int} main').stdout.decode()
         int_match = re.match(r'int exit=Ok\((?P<code>-?\d+)\) cycles=\d+', int_output)
