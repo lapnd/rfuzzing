@@ -17,8 +17,8 @@ c_binary_riscv_int = 'dep/ckb-vm-run/target/release/int64'
 c_binary_riscv_asm = 'dep/ckb-vm-run/target/release/asm'
 c_binary_riscv_aot = 'dep/ckb-vm-run/target/release/aot'
 c_binary_riscv_mop = 'dep/ckb-vm-run/target/release/mop'
-c_binary_riscv_spike = '/opt/riscv64b/bin/spike'
-c_binary_riscv_spike_args = '--isa RV64GC /opt/riscv64b/riscv64-unknown-elf/bin/pk'
+c_binary_riscv_spike = '/opt/riscv/bin/spike'
+c_binary_riscv_spike_args = '--isa RV64GC_ZBA_ZBB_ZBC_ZBS /opt/riscv/riscv64-unknown-elf/bin/pk'
 # https://github.com/XuJiandong/riscv-naive-assembler
 c_binary_riscv_naive_assembler = 'dep/riscv-naive-assembler/target/release/riscv-naive-assembler'
 # https://github.com/riscv/sail-riscv
@@ -295,31 +295,38 @@ def main_b():
         f = Fuzzer()
         f.loop()
 
-        output = call(f'{c_binary_riscv_naive_assembler} -i {c_tempdir}/main.S').stdout.decode()
-        with open(f'{c_tempdir}/main_naive.S', 'w') as f:
-            f.write(output)
-        call(f'{c_binary_as} {c_binary_as_args} -o {c_tempdir}/main_naive.o {c_tempdir}/main_naive.S')
-        call(f'{c_binary_ld} -o {c_tempdir}/main_naive -T src/main.lds {c_tempdir}/main_naive.o')
+        call(f'mv {c_tempdir}/main.S {c_tempdir}/main_origin.S')
 
-        int_output = call(f'{c_binary_riscv_int} {c_tempdir}/main_naive').stdout.decode()
+        output = call(f'{c_binary_riscv_naive_assembler} -i {c_tempdir}/main_origin.S').stdout.decode()
+        with open(f'{c_tempdir}/main.S', 'w') as f:
+            f.write(output)
+        call(f'{c_binary_as} {c_binary_as_args} -o {c_tempdir}/main.o {c_tempdir}/main.S')
+        call(f'{c_binary_ld} -o {c_tempdir}/main -T src/main.lds {c_tempdir}/main.o')
+
+        cmp_exitcode = call_lazy(f'{c_binary_riscv_spike} {c_binary_riscv_spike_args} {c_tempdir}/main').returncode
+        if cmp_exitcode >= 128:
+            cmp_exitcode = cmp_exitcode - 256
+
+        int_output = call(f'{c_binary_riscv_int} {c_tempdir}/main').stdout.decode()
         int_match = re.match(r'int exit=Ok\((?P<code>-?\d+)\) cycles=(?P<cycles>\d+).*', int_output)
         int_exitcode = int(int_match.group('code'))
 
-        asm_output = call(f'{c_binary_riscv_asm} {c_tempdir}/main_naive').stdout.decode()
+        asm_output = call(f'{c_binary_riscv_asm} {c_tempdir}/main').stdout.decode()
         asm_match = re.match(r'asm exit=Ok\((?P<code>-?\d+)\) cycles=(?P<cycles>\d+).*', asm_output)
         asm_exitcode = int(asm_match.group('code'))
 
-        aot_output = call(f'{c_binary_riscv_aot} {c_tempdir}/main_naive').stdout.decode()
+        aot_output = call(f'{c_binary_riscv_aot} {c_tempdir}/main').stdout.decode()
         aot_match = re.match(r'aot exit=Ok\((?P<code>-?\d+)\) cycles=(?P<cycles>\d+).*', aot_output)
         aot_exitcode = int(aot_match.group('code'))
 
-        mop_output = call(f'{c_binary_riscv_mop} {c_tempdir}/main_naive').stdout.decode()
+        mop_output = call(f'{c_binary_riscv_mop} {c_tempdir}/main').stdout.decode()
         mop_match = re.match(r'mop exit=Ok\((?P<code>-?\d+)\) cycles=(?P<cycles>\d+).*', mop_output)
         mop_exitcode = int(mop_match.group('code'))
 
-        assert int_exitcode == asm_exitcode
-        assert int_exitcode == aot_exitcode
-        assert int_exitcode == mop_exitcode
+        assert cmp_exitcode == int_exitcode
+        assert cmp_exitcode == asm_exitcode
+        assert cmp_exitcode == aot_exitcode
+        assert cmp_exitcode == mop_exitcode
 
 
 def main_mop():
