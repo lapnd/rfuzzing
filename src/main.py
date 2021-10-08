@@ -17,8 +17,8 @@ c_binary_riscv_int = 'dep/ckb-vm-run/target/release/int64'
 c_binary_riscv_asm = 'dep/ckb-vm-run/target/release/asm'
 c_binary_riscv_aot = 'dep/ckb-vm-run/target/release/aot'
 c_binary_riscv_mop = 'dep/ckb-vm-run/target/release/mop'
-c_binary_riscv_spike = '/opt/riscv/bin/spike'
-c_binary_riscv_spike_args = '--isa RV64GC_ZBA_ZBB_ZBC_ZBS /opt/riscv/riscv64-unknown-elf/bin/pk'
+c_binary_riscv_spike = 'dep/riscv/bin/spike'
+c_binary_riscv_spike_args = '--isa RV64GC_ZBA_ZBB_ZBC_ZBS dep/riscv/riscv64-unknown-elf/bin/pk'
 # https://github.com/XuJiandong/riscv-naive-assembler
 c_binary_riscv_naive_assembler = 'dep/riscv-naive-assembler/target/release/riscv-naive-assembler'
 # https://github.com/riscv/sail-riscv

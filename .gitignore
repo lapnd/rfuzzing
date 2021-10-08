@@ -1,6 +1,8 @@
 /dep/ckb-vm-run
 /dep/riscv
 /dep/riscv-gnu-toolchain
+/dep/riscv-isa-sim
 /dep/riscv-naive-assembler
+/dep/riscv-pk
 /dep/riscv-tests
 /dep/sail-riscv
