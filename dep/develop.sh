@@ -33,6 +33,7 @@ fi
 if [ ! -d ./riscv ]; then
     git clone https://github.com/riscv-software-src/riscv-gnu-toolchain
     cd riscv-gnu-toolchain
+    git submodule update --init --recursive
     ./configure --prefix=$ROOT/dep/riscv
     make
     cd ..
